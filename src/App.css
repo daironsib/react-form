@@ -1,38 +1,67 @@
-.App {
+.container {
+  padding: 50px 20px;
+}
+
+.bill {
+  position: relative;
+  border-radius: 30px;
+  background-color: #F6FAFD;
+  padding: 10px 30px 30px;
+  margin-bottom: 30px;
+}
+
+.bill__amount .MuiFormLabel-root {
+  text-align: center;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 14px;
+}
+
+.bill__amount .MuiInput-input{
+  color: blue;
+  font-size: 30px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.bill__row {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.bill__row--head {
+  text-align: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.bill__note .MuiFormHelperText-root {
+  text-align: right;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.bill__date {
+  width: 100%;
+  max-width: 170px;
+}
+
+.container .bill__account .MuiSelect-select,
+.MuiMenu-root .MuiMenuItem-root {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container .add-btn {
+  border-radius: 20px;
+  display: flex;
+  width: auto;
+  margin: 50px auto;
+  text-transform: capitalize;
+  font-weight: bold;
+}
+
+.bill__remove {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  cursor: pointer;
 }
