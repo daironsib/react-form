@@ -9,6 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import CancelIcon from '@mui/icons-material/Cancel';
 import * as Yup from 'yup';
 
+const MAX_BILLS_AMOUNT = 5;
 const CHARACTER_LIMIT = 31;
 const DATA_STRUCTURE = {
   amount: '0.00',
@@ -58,16 +59,16 @@ const App = () => {
 
   const { values, errors, touched, handleSubmit, handleChange, handleBlur, setFieldValue, setFieldError } = formik;
 
+  const isFormEmpty = 
+    !values.bills[0].date ||
+    Object.keys(errors).length ||
+    values.bills.length >= MAX_BILLS_AMOUNT;
+
   const closeDatePickerHandler = (value, index) => {
     if (!value) {
       setFieldError(`bills[${index}].date`, 'Date is required!');
     }
   }
-
-  const isFormEmpty = () => 
-    !values.bills[0].date ||
-    Object.keys(errors).length !== 0 ||
-    values.bills.length >= 5;
 
   return (
     <FormikProvider value={formik}>
@@ -77,8 +78,7 @@ const App = () => {
               {values.bills.map((bill, index) => (
                 <div className='bill' key={`bill-${index}`}>
                   {
-                    index > 0 && 
-                    <CancelIcon className='bill__remove' onClick={() => remove(index)}/>
+                    !!index && <CancelIcon className='bill__remove' onClick={() => remove(index)}/>
                   }
                   <div className='bill__row bill__row--head'>
                     <TextField
@@ -93,12 +93,12 @@ const App = () => {
                         disableUnderline: true,
                         startAdornment: '$'
                       }}
-                      error={touched?.bills?.[index]?.amount && Boolean(errors?.bills?.[index]?.amount)}
-                      helperText={touched?.bills?.[index]?.amount && errors?.bills?.[index]?.amount}
+                      error={touched.bills?.[index].amount && Boolean(errors.bills?.[index].amount)}
+                      helperText={touched.bills?.[index].amount && errors.bills?.[index].amount}
                     />
                   </div>
                   <div className='bill__row'>
-                    <FormControl error={touched?.bills?.[index]?.account && Boolean(errors?.bills?.[index]?.account)} fullWidth>
+                    <FormControl error={touched.bills?.[index].account && Boolean(errors.bills?.[index].account)} fullWidth>
                       <InputLabel id='account-label'>From Account</InputLabel>
                       <Select
                         className='bill__account'
@@ -120,11 +120,11 @@ const App = () => {
                         </MenuItem>
                       </Select>
                       {
-                        touched?.bills?.[index]?.account && Boolean(errors?.bills?.[index]?.account) && 
-                        <FormHelperText>{errors?.bills?.[index]?.account}</FormHelperText>
+                        touched.bills?.[index].account && Boolean(errors.bills?.[index].account) && 
+                        <FormHelperText>{errors.bills?.[index].account}</FormHelperText>
                       }
                     </FormControl>
-                    <FormControl error={touched?.bills?.[index]?.payee && Boolean(errors?.bills?.[index]?.payee)} fullWidth>
+                    <FormControl error={touched.bills?.[index].payee && Boolean(errors.bills?.[index].payee)} fullWidth>
                       <InputLabel id='payee-label'>Payee</InputLabel>
                       <Select
                         labelId='payee-label'
@@ -139,8 +139,8 @@ const App = () => {
                         <MenuItem value={2}>Amsterdam High School</MenuItem>
                       </Select>
                       {
-                        touched?.bills?.[index]?.payee && Boolean(errors?.bills?.[index]?.payee) && 
-                        <FormHelperText>{errors?.bills?.[index]?.payee}</FormHelperText>
+                        touched.bills?.[index]?.payee && Boolean(errors.bills?.[index].payee) && 
+                        <FormHelperText>{errors.bills?.[index].payee}</FormHelperText>
                       }
                       <FormHelperText>Last payment of $271.00 was on Dec 17, 2022.</FormHelperText>
                     </FormControl>
@@ -153,18 +153,18 @@ const App = () => {
                           name={`bills[${index}].date`}
                           value={values.bills[index].date}
                           format='DD.MM.YYYY'
-                          className={errors?.bills?.[index]?.date? 'has-error' : null}
+                          className={errors.bills?.[index].date? 'has-error' : null}
                           onChange={(value) => setFieldValue(`bills[${index}].date`, value, true)}
                           onClose={() => closeDatePickerHandler(values.bills[index].date, index)}
                           fullWidth
                         />
                         {
-                          errors?.bills?.[index]?.date && 
-                          <FormHelperText error>{errors?.bills?.[index]?.date}</FormHelperText>
+                          errors.bills?.[index].date && 
+                          <FormHelperText error>{errors.bills?.[index].date}</FormHelperText>
                         }
                       </Box>
                     </LocalizationProvider>
-                    <FormControl error={touched?.bills?.[index]?.repeat && Boolean(errors?.bills?.[index]?.repeat)} fullWidth>
+                    <FormControl error={touched.bills?.[index].repeat && Boolean(errors.bills?.[index].repeat)} fullWidth>
                       <InputLabel id='repeat'>Repeat</InputLabel>
                       <Select
                         labelId='repeat'
@@ -179,8 +179,8 @@ const App = () => {
                         <MenuItem value={6}>Every 6 Month, Untill Dec 25, 2024</MenuItem>
                       </Select>
                       {
-                        touched?.bills?.[index]?.repeat && Boolean(errors?.bills?.[index]?.repeat) && 
-                        <FormHelperText>{errors?.bills?.[index]?.repeat}</FormHelperText>
+                        touched.bills?.[index].repeat && Boolean(errors.bills?.[index].repeat) && 
+                        <FormHelperText>{errors.bills?.[index].repeat}</FormHelperText>
                       }
                     </FormControl>
                     <FormControl className='bill__note' fullWidth>
@@ -194,11 +194,11 @@ const App = () => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         helperText={`${bill.note.length}/${CHARACTER_LIMIT}`}
-                        error={touched?.bills?.[index]?.note && Boolean(errors?.bills?.[index]?.note)}
+                        error={touched.bills?.[index].note && Boolean(errors.bills?.[index].note)}
                       />
                       {
-                        touched?.bills?.[index]?.note && Boolean(errors?.bills?.[index]?.note) && 
-                        <FormHelperText error>{errors?.bills?.[index]?.note}</FormHelperText>
+                        touched.bills?.[index].note && Boolean(errors.bills?.[index].note) && 
+                        <FormHelperText error>{errors.bills?.[index].note}</FormHelperText>
                       }
                     </FormControl>
                   </div>
@@ -210,7 +210,7 @@ const App = () => {
                 variant='outlined'
                 startIcon={<AddIcon />}
                 onClick={() => push(DATA_STRUCTURE)}
-                disabled={isFormEmpty()}
+                disabled={isFormEmpty}
                 fullWidth
               >
                 Add Another Bill
