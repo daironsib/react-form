@@ -35,6 +35,7 @@
   justify-content: center;
 }
 
+.bill__note .MuiFormHelperText-root,
 .bill__note .MuiFormHelperText-root {
   text-align: right;
 }
@@ -64,4 +65,13 @@
   top: 25px;
   right: 25px;
   cursor: pointer;
+}
+
+.bill .MuiFormHelperText-root {
+  margin: 5px 0 0;
+  padding: 0;
+}
+
+.has-error .MuiOutlinedInput-notchedOutline {
+  border-color: #d32f2f;
 }
