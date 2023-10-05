@@ -10,6 +10,10 @@
   margin-bottom: 30px;
 }
 
+.bill__amount {
+  width: 100%;
+}
+
 .bill__amount .MuiFormLabel-root {
   text-align: center;
   left: 50%;
