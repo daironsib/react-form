@@ -63,7 +63,7 @@ const NumericFormatCustom = React.forwardRef(function NumericFormatCustom(
           },
         });
       }}
-      prefix="$"
+      prefix='$'
     />
   );
 });
